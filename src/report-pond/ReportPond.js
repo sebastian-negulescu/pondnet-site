@@ -9,7 +9,11 @@ const ReportPond = () => {
         event.preventDefault();
 
         try {
-            const res = await fetch('http://localhost:8000/', {
+            const res = await fetch('http://localhost:8000/report', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
                 method: 'POST',
                 body: JSON.stringify({ 
                     locLat: locLat,
