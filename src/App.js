@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+
+import Home from './home/Home.js';
+import FindPond from './find-pond/FindPond.js';
+import ReportPond from './report-pond/ReportPond.js';
+
 import './App.css';
 
-function App() {
+const App = () => {
+  const [find, setFind] = useState(false);
+  const [report, setReport] = useState(false);
+
+  const onFindClick = () => {
+    setFind(true);
+  };
+
+  const onReportClick = () => {
+    setReport(true);
+  }
+
+  const onBackClick = () => {
+    setFind(false);
+    setReport(false);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!find && !report && (<Home findClick={onFindClick} reportClick={onReportClick}/>)}
+      {find && !report && (<FindPond/>)}
+      {!find && report && (<ReportPond/>)}
     </div>
   );
-}
+};
 
 export default App;
