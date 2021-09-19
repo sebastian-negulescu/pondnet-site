@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ReportPond = () => {
-    const [rating, setRating] = useState(3);
     const [locLat, setLocLat] = useState(0);
     const [locLong, setLocLong] = useState(0);
+    const [rating, setRating] = useState(3);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                setLocLat(position.coords.latitude);
+                setLocLong(position.coords.longitude);
+            });
+        }
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const res = await fetch('http://localhost:8000/report', {
+            const res = await fetch('https://localhost:8000/report', {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -34,15 +43,6 @@ const ReportPond = () => {
         <>
             <h1>Report a Pond</h1>
             <form onSubmit={handleSubmit}>
-                <label>
-                    location:
-                    <input type='number' 
-                        value={locLat}
-                        onChange={e => setLocLat(e.target.value)} />
-                    <input type='number' 
-                        value={locLong}
-                        onChange={e => setLocLong(e.target.value)} />
-                </label>
                 <label>
                     ice condition:
                     <input type='number' 

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import GoogleMapReact from 'google-map-react';
+import apiKey from '../apiKey.js';
 
 const FindPond = () => {
     const [ponds, setPonds] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:8000/find', {
+        fetch('https://localhost:8000/find', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -34,14 +36,12 @@ const FindPond = () => {
     }, []);
 
     return (
-        <div>
-            {ponds && ponds.map((pond, i) => 
-                (<div key={i}>
-                    {pond.locLat}
-                    {pond.locLong}
-                    {pond.rating}
-                </div>)
-            )}
+        <div style={{ height: '100vh', width: '100%' }}>
+            <GoogleMapReact
+                bootstrapURLKeys={{ key: apiKey }}
+                defaultCenter={{lat: 59.95, lng: 30.33}}
+                defaultZoom={8}
+            ></GoogleMapReact>
         </div>
     );
 };
