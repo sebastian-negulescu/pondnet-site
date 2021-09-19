@@ -1,0 +1,50 @@
+.container {
+    display: block;
+}
+
+.header {
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    background-color: white;
+}
+
+.title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.mapContainer {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    max-width: 1200px;
+    max-height: 800px;
+}
+
+.loc {
+    font-size: 18px;
+    color: black;
+    background-color: rgb(252, 116, 116);
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+.backBtn {
+    font-size: 18px;
+    height: 2em;
+    padding: 0 2em 0 2em;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 1em;
+    background-color:rgb(128, 187, 255);
+    transition: 1s;
+
+    cursor: pointer;
+    margin: 1em;
+}
+
+.backBtn:hover {
+    background-color:rgba(128, 187, 255, 0.3);
+    transition: 1s;
+}

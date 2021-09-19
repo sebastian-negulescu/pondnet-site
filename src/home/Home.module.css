@@ -1,0 +1,33 @@
+.home {
+    width: 100%;
+    height: 100vh;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+    padding: 2em;
+    box-sizing: border-box;
+
+    background: none;
+}
+
+.home button {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+
+    cursor: pointer;
+
+    font-size: 1em;
+    font-family: sans-serif;
+
+    border: none;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-size: 2em;
+
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 2em;
+}
