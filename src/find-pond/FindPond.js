@@ -70,44 +70,7 @@ const FindPond = (props) => {
                     <span>find a rink near you</span>
                 </div>
                 <div className={styles.mapContainer}>
-                    <GoogleMapReact
-                        bootstrapURLKeys={{ key: apiKey }}
-                        defaultCenter={{lat: props.userLoc.lat, lng: props.userLoc.long}}
-                        defaultZoom={15}
-                    >
-                        {ponds && ponds.map((pond, i) => {
-                            let name;
-                            switch (pond.rating) {
-                                case 1: 
-                                    name = styles.mUnskateable;
-                                    break;
-                                case 2: 
-                                    name = styles.mBad;
-                                    break;
-                                case 3: 
-                                    name = styles.mOkay;
-                                    break;
-                                case 4: 
-                                    name = styles.mGood;
-                                    break;
-                                case 5: 
-                                    name = styles.mGreat;
-                                    break;
-                                default:
-                                    name = styles.mOkay;
-                                    break;
-                            }
-                            return (
-                                <div 
-                                    key={i} 
-                                    lat={pond.locLat} 
-                                    lng={pond.locLong}
-                                    className={name}
-                                >
-                                </div>
-                            );
-                        })}
-                    </GoogleMapReact>
+                    
                 </div>
                 <div className={styles.footer}>
                     <span>unskateable</span>
