@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GoogleMapReact from 'google-map-react';
-import apiKey from '../apiKey.js';
+import { Map, Marker } from "pigeon-maps";
 
 import styles from './FindPond.module.css';
 
@@ -15,8 +14,8 @@ const FindPond = (props) => {
             },
             method: 'POST',
             body: JSON.stringify({ 
-                locLat: 0,
-                locLong: 0
+                locLat: props.userLoc.lat,
+                locLong: props.userLoc.long
             })
         })
         .then(async response => {
@@ -70,7 +69,11 @@ const FindPond = (props) => {
                     <span>find a rink near you</span>
                 </div>
                 <div className={styles.mapContainer}>
-                    
+                    <Map defaultCenter={[props.userLoc.lat, props.userLoc.long]} defaultZoom={11}>
+                        {ponds?.map(el => {
+                            return(<Marker width={50} anchor={[el.locLat, el.locLong]} />);
+                        })}
+                    </Map> 
                 </div>
                 <div className={styles.footer}>
                     <span>unskateable</span>
