@@ -34,7 +34,7 @@ const FindPond = (props) => {
         .catch(error => {
             console.error(error);
         });
-    }, []);
+    });
 
     const ratingConversion = (rating) => {
         let ret;
