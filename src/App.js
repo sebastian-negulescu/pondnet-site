@@ -9,14 +9,16 @@ import styles from './App.module.css';
 const App = () => {
   const [find, setFind] = useState(false);
   const [report, setReport] = useState(false);
-  const [userLocLat, setUserLocLat] = useState(0);
-  const [userLocLong, setUserLocLong] = useState(0);
+  const [coordinates, setCoordinates] = useState(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-          setUserLocLat(position.coords.latitude);
-          setUserLocLong(position.coords.longitude);
+      console.log('setting location');
+      navigator.geolocation.getCurrentPosition(position => {
+        setCoordinates([
+          position.coords.latitude,
+          position.coords.longitude
+        ]);
       });
     }
   }, []);
@@ -37,8 +39,12 @@ const App = () => {
   return (
     <div className={styles.app}>
       {!find && !report && (<Home findClick={onFindClick} reportClick={onReportClick}/>)}
-      {find && !report && (<FindPond userLoc={{lat: userLocLat, long: userLocLong}} backFunction={onBackClick}/>)}
-      {!find && report && (<ReportPond userLoc={{lat: userLocLat, long: userLocLong}} backFunction={onBackClick}/>)}
+      {find && !report && (
+        <FindPond coordinates={coordinates} backFunction={onBackClick}/>
+      )}
+      {!find && report && (
+        <ReportPond coordinates={coordinates} backFunction={onBackClick}/>
+      )}
     </div>
   );
 };
