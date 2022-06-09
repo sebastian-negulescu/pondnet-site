@@ -4,6 +4,8 @@ import styles from './ReportPond.module.css';
 
 const ReportPond = (props) => {
     const [rating, setRating] = useState(3);
+    const [size, setSize] = useState(3);
+    const [busy, setBusy] = useState(3);
     const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (event) => {
@@ -17,9 +19,12 @@ const ReportPond = (props) => {
                 },
                 method: 'POST',
                 body: JSON.stringify({ 
-                    locLat: props.userLoc.lat,
-                    locLong: props.userLoc.long,
-                    rating: rating
+                    'location': {
+                      'coordinates': props.coordinates,
+                    },
+                    'rating': rating,
+                    'size': size,
+                    'busy': busy
                 })
             });
             if (!res.ok) {
@@ -36,49 +41,37 @@ const ReportPond = (props) => {
     const form = (
         <form onSubmit={handleSubmit}>
             <div className={styles.question}>
-                <div className={styles.text}>how's the ice?</div>
-                <div>
-                    <label className={styles.label}>
-                        <input type='radio' 
-                            value={1}
-                            checked={rating === 1}
-                            onChange={() => setRating(1)} 
-                        />
-                        unskateable
-                    </label>
-                    <label className={styles.label}>
-                        <input type='radio' 
-                            value={2}
-                            checked={rating === 2}
-                            onChange={() => setRating(2)} 
-                        />
-                        bad
-                    </label>
-                    <label className={styles.label}>
-                        <input type='radio' 
-                            value={3}
-                            checked={rating === 3}
-                            onChange={() => setRating(3)} 
-                        />
-                        okay
-                    </label>
-                    <label className={styles.label}>
-                        <input type='radio' 
-                            value={4}
-                            checked={rating === 4}
-                            onChange={() => setRating(4)} 
-                        />
-                        good
-                    </label>
-                    <label className={styles.label}>
-                        <input type='radio' 
-                            value={5}
-                            checked={rating === 5}
-                            onChange={() => setRating(5)} 
-                        />
-                        great
-                    </label>
-                </div>
+                <div className={styles.text}>ice condition</div>
+                <input
+                    type='range'
+                    value={rating}
+                    min='1'
+                    max='5'
+                    step='1'
+                    onChange={event => setRating(event.target.value)}
+                />
+            </div>
+            <div className={styles.question}>
+                <div className={styles.text}>ice size</div>
+                <input
+                    type='range'
+                    value={size}
+                    min='1'
+                    max='5'
+                    step='1'
+                    onChange={event => setSize(event.target.value)}
+                />
+            </div>
+            <div className={styles.question}>
+                <div className={styles.text}>ice business</div>
+                <input
+                    type='range'
+                    value={busy}
+                    min='1'
+                    max='5'
+                    step='1'
+                    onChange={event => setBusy(event.target.value)}
+                />
             </div>
             <div className={styles.buttons}>
                 <button className={styles.submitBtn} type='submit'>submit</button>

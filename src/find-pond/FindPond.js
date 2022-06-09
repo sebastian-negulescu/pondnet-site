@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Map, Marker } from "pigeon-maps";
+import { Map, Marker } from 'pigeon-maps';
+import RinkInfo from '../rink-info/RinkInfo.js';
 
 import styles from './FindPond.module.css';
 
-const FindPond = (props) => {
+const FindPond = props => {
     const [ponds, setPonds] = useState(null);
+    const [activeRink, setActiveRink] = useState(null);
 
     useEffect(() => {
+        console.log(props.coordinates);
+
         fetch('https://localhost:8000/find', {
             headers: {
                 'Accept': 'application/json',
@@ -14,8 +18,9 @@ const FindPond = (props) => {
             },
             method: 'POST',
             body: JSON.stringify({ 
-                locLat: props.userLoc.lat,
-                locLong: props.userLoc.long
+                'location': {
+                    'coordinates': props.coordinates
+                }
             })
         })
         .then(async response => {
@@ -34,57 +39,30 @@ const FindPond = (props) => {
         .catch(error => {
             console.error(error);
         });
-    });
-
-    const ratingConversion = (rating) => {
-        let ret;
-        switch (rating) {
-            case 1: 
-                ret = 'no';
-                break;
-            case 2: 
-                ret = 'bad';
-                break;
-            case 3: 
-                ret = 'okay';
-                break;
-            case 4: 
-                ret = 'good';
-                break;
-            case 5: 
-                ret = 'great';
-                break;
-            default:
-                ret = '';
-                break;
-        }
-        return ret;
-    };
+    }, [props.coordinates]);
 
     return (
         <div className={styles.containerContainer}>
             <div className={styles.container}>
-                <div className={styles.header}>
+                <div className={styles.infoContainer}>
                     <button className={styles.backBtn} onClick={props.backFunction}>back</button>
-                    <span>find a rink near you</span>
+                    <RinkInfo rink={activeRink} />
                 </div>
                 <div className={styles.mapContainer}>
-                    <Map defaultCenter={[props.userLoc.lat, props.userLoc.long]} defaultZoom={11}>
-                        {ponds?.map(el => {
-                            return(<Marker width={50} anchor={[el.locLat, el.locLong]} />);
+                    <Map center={props.coordinates} defaultZoom={11}>
+                        {ponds?.map((el, ind) => {
+                            return(
+                                <Marker 
+                                    key={ind} 
+                                    width={50} 
+                                    anchor={el.location.coordinates} 
+                                    onClick={() => setActiveRink(el)} 
+                                />
+                            );
                         })}
                     </Map> 
                 </div>
-                <div className={styles.footer}>
-                    <span>unskateable</span>
-                    <div className={styles.unskateable}></div>
-                    <div className={styles.bad}></div>
-                    <div className={styles.okay}></div>
-                    <div className={styles.good}></div>
-                    <div className={styles.great}></div>
-                    <span>great</span>
-                </div>
-            </div>
+           </div>
         </div>
     );
 };
